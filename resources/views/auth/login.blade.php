@@ -137,20 +137,20 @@
                     </form>
 
                     {{-- تأجل لنهاية المشروع لتوفير الوقت --}}
-                    {{-- <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="mt-8 pt-6 border-t border-gray-200">
                         <p class="text-center text-gray-600 mb-4">{{ __('Or continue with') }}</p>
                         <div class="flex justify-center space-x-4 {{ app()->getLocale() === 'ar' ? 'space-x-reverse' : '' }}">
                             <a href="#" class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 hover:bg-blue-100 transition-colors">
                                 <i class="fab fa-facebook-f text-xl"></i>
                             </a>
-                            <a href="#" class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-600 hover:bg-red-100 transition-colors">
+                            <a href="{{ route('auth.google.redirect') }}" class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-600 hover:bg-red-100 transition-colors">
                                 <i class="fab fa-google text-xl"></i>
                             </a>
                             <a href="#" class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-800 hover:bg-gray-100 transition-colors">
                                 <i class="fab fa-apple text-xl"></i>
                             </a>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <!-- رابط التسجيل -->
                     <div class="mt-6 text-center">

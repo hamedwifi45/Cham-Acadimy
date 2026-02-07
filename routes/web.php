@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin as ControllersAdmin;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\CommentPostController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
@@ -18,6 +19,8 @@ Route::get('/', function () {
     return view('Gallary', compact('courses' , 'posts'));
 })->name('Gallary');
 
+Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google.redirect');
+Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
 Route::get('courses/mycourse', [CourseController::class , 'mycourse'])->name('courses.mycourse');
 Route::resource('courses', CourseController::class);
