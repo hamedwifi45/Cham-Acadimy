@@ -17,71 +17,42 @@ class SocialiteController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
-    {
-        try {
-            $googleUser = Socialite::driver('google')->user();
-
-            $user = User::where('google_id', $googleUser->id)->first();
-
+    public function handleGoogleCallback(){
+    try {
+        $googleUser = Socialite::driver('google')->user();
+        $user = User::where('google_id', $googleUser->id)->first();
+        if (!$user) {
+            $user = User::where('email', $googleUser->email)->first();
+        }
+        if (!$user) {
             $avatarUrl = $googleUser->getAvatar();
             $avatarContents = file_get_contents($avatarUrl);
             $filename = 'avatar_' . $googleUser->getId() . '.jpg';
-
             Storage::put('public/profile-photos/' . $filename, $avatarContents);
-            if (!$user) {
-                $user = User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'google_id' => $googleUser->id,
-                    'password' => bcrypt(Str::random(24)), // كلمة مرور عشوائية
-                    'profile_photo_path' => 'profile-photos/' . $filename,
-                ]);
-            }
-            
 
-            Auth::login($user);
-
-            return redirect('/');
-
-        } catch (\Exception $e) {
-            return redirect('/login')->withErrors('فشل تسجيل الدخول عبر جوجل');
-        }
-    }
-     public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    public function handleFacebookCallback()
-    {
-        try {
-            $facebookUser = Socialite::driver('facebook')->user();
-
-            $user = User::where('facebook_id', $facebookUser->id)->first();
-
-            $avatarUrl = $facebookUser->getAvatar();
+            $user = User::create([
+                'name' => $googleUser->name,
+                'email' => $googleUser->email,
+                'google_id' => $googleUser->id,
+                'password' => bcrypt(Str::random(24)),
+                'profile_photo_path' => 'profile-photos/' . $filename,
+            ]);
+        } 
+        else {
+            $avatarUrl = $googleUser->getAvatar();
             $avatarContents = file_get_contents($avatarUrl);
-            $filename = 'avatar_' . $facebookUser->getId() . '.jpg';
-
+            $filename = 'avatar_' . $googleUser->getId() . '.jpg';
             Storage::put('public/profile-photos/' . $filename, $avatarContents);
-            if (!$user) {
-                $user = User::create([
-                    'name' => $facebookUser->name,
-                    'email' => $facebookUser->email,
-                    'facebook_id' => $facebookUser->id,
-                    'password' => bcrypt(Str::random(24)), // كلمة مرور عشوائية
-                    'profile_photo_path' => 'profile-photos/' . $filename,
-                ]);
-            }
-            
-
-            Auth::login($user);
-
-            return redirect('/');
-
-        } catch (\Exception $e) {
-            return redirect('/login')->withErrors('فشل تسجيل الدخول عبر جوجل');
+            $user->update([
+                'google_id' => $googleUser->id,
+                'profile_photo_path' => 'profile-photos/' . $filename,
+                'name' => $googleUser->name, 
+            ]);
         }
+        Auth::login($user);
+        return redirect('/');
+    } catch (\Exception $e) {
+        return redirect('/login')->withErrors('فشل تسجيل الدخول عبر جوجل: ' . $e->getMessage());
     }
+}
 }
