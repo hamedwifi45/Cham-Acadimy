@@ -80,7 +80,7 @@
                         <div class="space-y-4">
                             <div class="flex justify-between items-center pb-3 border-b border-gray-200">
                                 <span class="text-gray-600">{{ __('Transaction ID') }}</span>
-                                <span class="font-medium text-gray-800">{{ $puraches->payment_id }}</span>
+                                <span class="font-medium text-gray-800">{{ $puraches->payment_intent_id }}</span>
                             </div>
                             
                             

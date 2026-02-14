@@ -29,10 +29,11 @@ class Purchase extends Controller
             ->delete();
         
         // إدخال عملية شراء جديدة
-        DB::table('purchases')->insert([
+            DB::table('purchases')->insert([
             'user_id' => $userId,
             'course_id' => $course->id,
             'amount' => $total,
+                'payment_intent_id' => null,
             'status' => 'pending',
             'created_at' => now(),
             'updated_at' => now(),

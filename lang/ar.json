@@ -679,5 +679,13 @@
     "Price must be a number": "السعر يجب أن يكون رقمًا",
     "Author does not exist": "الكاتب غير موجود",
     "Unsupported video format. Please upload MP4 or MOV video": "صيغة الفيديو غير مدعومة. يرجى تحميل فيديو بصيغة MP4 أو MOV",
-    "Failed to update course progress. Please try again." : "فشل تحديث تقدم الدورة. يرجى المحاولة مرة أخرى."
+    "Failed to update course progress. Please try again." : "فشل تحديث تقدم الدورة. يرجى المحاولة مرة أخرى.",
+    "Cham Academy": "أكاديمية الشام",
+    "Join our learning community and start your journey to learn the latest technologies": "انضم إلى مجتمعنا التعليمي وابدأ رحلتك في تعلم أحدث التقنيات",
+    "An all-in-one learning platform to learn the latest programming and business management technologies": "منصة تعليمية متكاملة لتعلم أحدث تقنيات البرمجة وإدارة الأعمال",
+    "Arabic": "عربـي",
+    "About the author": "عن الكاتب",
+    "This month": "هذا الشهر",
+    "New courses": "دورات جديدة",
+    "This week": "هذا الأسبوع"
 }

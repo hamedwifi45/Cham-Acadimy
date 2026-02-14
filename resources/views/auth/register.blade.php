@@ -9,11 +9,11 @@
                     </a>
                 </div>
                 <h1 class="text-3xl font-bold text-gray-800 mb-4">
-                    {{ app()->getLocale() === 'ar' ? 'أكاديمية الشام' : 'Cham Academy' }}
+                    {{ __('Cham Academy') }}
                 </h1>
                 <p class="text-gray-600 leading-relaxed">
                     {{ app()->getLocale() === 'ar' 
-                        ? 'انضم إلى مجتمعنا التعليمي وابدأ رحلتك في تعلم أحدث التقنيات' 
+                        ? __('Join our learning community and start your journey to learn the latest technologies') 
                         : 'Join our educational community and start your journey in learning the latest technologies' }}
                 </p>
                 <div class="mt-8 flex justify-center space-x-4 {{ app()->getLocale() === 'ar' ? 'space-x-reverse' : '' }}">

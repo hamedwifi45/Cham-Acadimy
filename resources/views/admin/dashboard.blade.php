@@ -58,7 +58,7 @@
             {{-- خطة مستقبلية --}}
             {{-- <div class="mt-4">
                 <span class="text-green-600 text-sm font-medium">
-                    <i class="fas fa-arrow-up mr-1"></i> 18% هذا الشهر
+                    <i class="fas fa-arrow-up mr-1"></i> 18% {{ __('This month') }}
                 </span>
             </div> --}}
         </div>
@@ -77,7 +77,7 @@
             {{-- خطة مستقبلية --}}
             {{-- <div class="mt-4">
                 <span class="text-green-600 text-sm font-medium">
-                    <i class="fas fa-arrow-up mr-1"></i> 6 دورات جديدة
+                    <i class="fas fa-arrow-up mr-1"></i> 6 {{ __('New courses') }}
                 </span>
             </div> --}}
         </div>
@@ -96,7 +96,7 @@
             {{-- خطة مستقبلية --}}
             {{-- <div class="mt-4">
                 <span class="text-green-600 text-sm font-medium">
-                    <i class="fas fa-arrow-up mr-1"></i> 12% هذا الشهر
+                    <i class="fas fa-arrow-up mr-1"></i> 12% {{ __('This month') }}
                 </span>
             </div> --}}
         </div>
@@ -115,7 +115,7 @@
             {{-- خطة مستقبلية --}}
             {{-- <div class="mt-4">
                 <span class="text-green-600 text-sm font-medium">
-                    <i class="fas fa-arrow-up mr-1"></i> 5% هذا الأسبوع
+                    <i class="fas fa-arrow-up mr-1"></i> 5% {{ __('This week') }}
                 </span>
             </div> --}}
         </div>

@@ -29,7 +29,7 @@ class PurchaseFactory extends Factory
             'user_id' => $user->id,
             'course_id' => $course->id,
             'amount' => $course->price,
-            'payment_id' => 'stripe_' . $this->faker->uuid(),
+            'payment_intent_id' => 'stripe_' . $this->faker->uuid(),
             'status' => $this->faker->randomElement(['pending', 'completed', 'failed']),
         ];
     }

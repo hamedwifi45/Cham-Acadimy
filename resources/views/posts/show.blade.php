@@ -93,7 +93,7 @@
 
             <!-- auther Card -->
             <div class="mt-12">
-                <h3 class="font-bold text-gray-800 mb-4">عن الكاتب</h3>
+                <h3 class="font-bold text-gray-800 mb-4">{{ __('About the author') }}</h3>
                 <div class="auther-card">
                     <div class="flex items-center gap-4">
                         <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">

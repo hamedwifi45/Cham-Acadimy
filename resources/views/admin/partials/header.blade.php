@@ -17,7 +17,7 @@
             <div class="flex bg-gray-100 rounded-lg p-0.5">
                     <a href="{{ route('lang.switch', 'ar') }}"
                         class="px-2.5 py-1 text-xs font-medium rounded transition {{ app()->getLocale() === 'ar' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">
-                        عربـي
+                        {{ __('Arabic') }}
                     </a>
                     <a href="{{ route('lang.switch', 'en') }}"
                         class="px-2.5 py-1 text-xs font-medium rounded transition {{ app()->getLocale() === 'en' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-900' }}">

@@ -316,7 +316,7 @@ class Admin extends Controller
     {
         $query = $request->input('query', '');
         $status = $request->input('status', 'all');
-        $searchBy = $request->input('search_by', 'payment_id');
+        $searchBy = $request->input('search_by', 'payment_intent_id');
         $totalRevenue = Purchase::where('status', 'completed')->sum('amount');
         $totalPurchases = Purchase::count();
         $completedPurchases = Purchase::where('status', 'completed')->count();
@@ -331,8 +331,8 @@ class Admin extends Controller
         // 
         if (!empty($query)) {
             switch ($searchBy) {
-                case 'payment_id':
-                    $purchases->where('payment_id', 'like', '%' . $query . '%');
+                case 'payment_intent_id':
+                    $purchases->where('payment_intent_id', 'like', '%' . $query . '%');
                     break;
                 case 'user':
                     $purchases->whereHas('user', function ($q) use ($query) {

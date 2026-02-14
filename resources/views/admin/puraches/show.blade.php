@@ -130,7 +130,7 @@
                             {{ __('Search By') }}
                         </label>
                         <select name="search_by" class="form-select w-full px-9 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="payment_id" {{ request('search_by', 'payment_id') === 'payment_id' ? 'selected' : '' }}>
+                            <option value="payment_intent_id" {{ request('search_by', 'payment_intent_id') === 'payment_intent_id' ? 'selected' : '' }}>
                                 {{ __('Transaction ID') }}
                             </option>
                             <option value="user" {{ request('search_by') === 'user' ? 'selected' : '' }}>
@@ -192,7 +192,7 @@
             </div>
         </form>
 
-        @if(request('query') || request('status') !== 'all' || request('search_by') !== 'payment_id')
+        @if(request('query') || request('status') !== 'all' || request('search_by') !== 'payment_intent_id')
             <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
                 <div class="flex flex-wrap items-center gap-3">
                     <span class="text-sm font-medium text-blue-800">
@@ -200,7 +200,7 @@
                         {{ __('Active Filters:') }}
                     </span>
                     
-                    @if(request('search_by') === 'payment_id')
+                    @if(request('search_by') === 'payment_intent_id')
                         <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                             {{ __('Transaction ID:') }} {{ request('query') }}
                         </span>
@@ -254,7 +254,7 @@
                                 <div class="flex justify-between items-start mb-2">
                                     <div>
                                         <h3 class="font-bold text-gray-800 text-lg">
-                                            {{ Str::limit($pur->payment_id, 25) }}
+                                            {{ Str::limit($pur->payment_intent_id, 25) }}
                                         </h3>
                                         <p class="text-xs text-gray-500 mt-1">
                                             <i class="fas fa-calendar-alt ml-1"></i>

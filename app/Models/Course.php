@@ -33,7 +33,7 @@ class Course extends Model
     public function purchases()
     {
         return $this->belongsToMany(User::class, 'purchases')
-                    ->withPivot('amount', 'payment_id', 'status')
+                ->withPivot('amount', 'payment_intent_id', 'status')
                     ->withTimestamps();
     }
     public function getTitleAttribute()

@@ -69,7 +69,7 @@
                                 <form action="{{ route('admin.courses.delete' , $course->id) }}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button onclick="return confirm('هل أنت متأكد؟')" type="submit" class="text-sm bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition">
+                                    <button onclick="return confirm('{{ __('Are you sure?') }}')" type="submit" class="text-sm bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition">
                                         {{__('Delete')}}
                                     </button>
                                 </form>
