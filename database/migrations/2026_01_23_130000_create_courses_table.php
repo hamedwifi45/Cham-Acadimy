@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('description_en');
             $table->decimal('price', 8, 2);
             $table->decimal('duration_hours',5,2)->default(0);
-            $table->enum('level', ['مبتدئ', 'متوسط', 'متقدم'])->default('مبتدئ');
+            $table->enum('level', ['Beginner', 'Intermediate', 'Advanced'])->default('Beginner');
             $table->string('thumbnail_url');
             $table->string('video_url');
             $table->foreignId('Author_id')->constrained('authers')->onDelete('cascade');

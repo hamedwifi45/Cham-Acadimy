@@ -27,7 +27,7 @@ class CourseFactory extends Factory
             'description_en' => $this->faker->paragraph(),
             'price' => $this->faker->randomElement([49.99, 99.99, 149.99, 199.99, 299.99, 499.99]),
             'duration_hours' => $this->faker->randomFloat(2, 2, 50),
-            'level' => $this->faker->randomElement(['مبتدئ', 'متوسط', 'متقدم']),
+            'level' => $this->faker->randomElement(['Beginner', 'Intermediate', 'Advanced']),
             'thumbnail_url' => $this->faker->randomElement([
                 'Tests/course-thumbnails/thumb1.jpg',
                 'Tests/course-thumbnails/thumb2.jpg',
@@ -54,7 +54,7 @@ class CourseFactory extends Factory
     public function beginner(): static
     {
         return $this->state(fn (array $attributes) => [
-            'level' => 'مبتدئ',
+            'level' => 'Beginner',
             'price' => $this->faker->randomElement([49.99, 79.99, 99.99]),
         ]);
     }
@@ -65,7 +65,7 @@ class CourseFactory extends Factory
     public function intermediate(): static
     {
         return $this->state(fn (array $attributes) => [
-            'level' => 'متوسط',
+            'level' => 'Intermediate',
             'price' => $this->faker->randomElement([149.99, 199.99, 249.99]),
         ]);
     }
@@ -76,7 +76,7 @@ class CourseFactory extends Factory
     public function advanced(): static
     {
         return $this->state(fn (array $attributes) => [
-            'level' => 'متقدم',
+            'level' => 'Advanced',
             'price' => $this->faker->randomElement([299.99, 399.99, 499.99]),
         ]);
     }

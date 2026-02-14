@@ -47,7 +47,7 @@
 @endpush
 
 @section('title')
-{{ __('Showing')}}
+{{ __('Showing Courses') }}
 @endsection
 @section('content')
     <main class="flex-1 p-6 md:ml-0">
@@ -95,11 +95,11 @@
                 </div>
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-3">
-                         @if ($course->level == 'مبتدئ')
+                         @if ($course->level == 'Beginner')
                             <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">{{ __('Beginner') }}</span>
-                        @elseif ($course->level == 'متوسط')
+                        @elseif ($course->level == 'Intermediate')
                             <span class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">{{ __('Intermediate') }}</span>
-                        @elseif ($course->level == 'متقدم')
+                        @elseif ($course->level == 'Advanced')
                             <span class="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded">{{ __('Advanced') }}</span>
                         @endif
                         <span class="status-active p-1 rounded">{{ $course->duration_hours > 10 ? $course->duration_hours . __(' hour') : $course->duration_hours . __(' hours') }}</span>
@@ -120,7 +120,7 @@
                                 <form action="{{ route('admin.courses.delete' , $course->id) }}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button onclick="return confirm('هل أنت متأكد؟')" type="submit" class="text-sm bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition">
+                                    <button onclick="return confirm('{{ __('Are you sure?') }}')" type="submit" class="text-sm bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition">
                                         {{__('Delete')}}
                                     </button>
                                 </form>

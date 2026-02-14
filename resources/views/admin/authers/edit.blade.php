@@ -23,6 +23,10 @@
 </style>
 @endpush
 
+@section('title')
+    {{ __('Authors Editing') }}
+@endsection
+
 @section('content')
     <main class="flex-1 p-6 md:ml-0">
         <div class="mb-8">
@@ -193,7 +197,7 @@
             photoUploadArea.innerHTML = `
                 <i class="fas fa-check-circle text-3xl text-green-500 mb-2"></i>
                 <p class="text-gray-600">${fileName}</p>
-                <p class="text-xs text-gray-500 mt-1">تم التحميل بنجاح</p>
+                <p class="text-xs text-gray-500 mt-1">{{__("Downloaded successfully")}}</p>
                 <input type="file" id="authorPhoto" name="profile_photo_url" accept="image/*" class="hidden">
             `;
             document.getElementById('authorPhoto').addEventListener('change', handlePhotoChange);
@@ -206,7 +210,7 @@
             photoUploadArea.innerHTML = `
                 <i class="fas fa-check-circle text-3xl text-green-500 mb-2"></i>
                 <p class="text-gray-600">${fileName}</p>
-                <p class="text-xs text-gray-500 mt-1">تم التحميل بنجاح</p>
+                <p class="text-xs text-gray-500 mt-1">{{__("Downloaded successfully")}}</p>
                 <input type="file" id="authorPhoto" name="profile_photo_url" accept="image/*" class="hidden">
             `;
             document.getElementById('authorPhoto').addEventListener('change', handlePhotoChange);

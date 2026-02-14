@@ -1,5 +1,8 @@
 @extends('admin.layouts.app')
 
+@section('title')
+{{ __('Showing Posts') }}
+@endsection
 
 @push('styles')
 <style>
@@ -63,7 +66,6 @@
                 </div>
             </form>
 
-            <!-- Posts List -->
             <div class="space-y-4">
                 @foreach ($posts as $post )
                 
@@ -104,10 +106,8 @@
                     </div>
                 </div>
                 @endforeach
-                <!-- Post Card 1 -->
             </div>
 
-            <!-- Pagination -->
             <div class="flex justify-center mt-8">
                 <nav class="flex items-center gap-2">
                     {{ $posts->links() }}

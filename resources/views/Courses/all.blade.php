@@ -34,11 +34,11 @@
                 </div>
                 <div class="p-5">
                     <div class="flex items-center mb-2">
-                        @if ($course->level == 'مبتدئ')
+                        @if ($course->level == 'Beginner')
                             <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">{{ __('Beginner') }}</span>
-                        @elseif ($course->level == 'متوسط')
+                        @elseif ($course->level == 'Intermediate')
                             <span class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">{{ __('Intermediate') }}</span>
-                        @elseif ($course->level == 'متقدم')
+                        @elseif ($course->level == 'Advanced')
                             <span class="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded">{{ __('Advanced') }}</span>
                         @endif
                         <span class="text-gray-500 text-sm mx-2">{{ $course->duration_hours > 10 ? $course->duration_hours . __(' hour') : $course->duration_hours . __(' hours') }}</span>
@@ -64,7 +64,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8 mt-12">
         <div class="container mx-auto px-4 text-center">
-            <p>&copy; 2026 أكاديمية شام. جميع الحقوق محفوظة.</p>
+            <p>&copy; {{ __('All rights reserved for') }} {{ config('app.name') }} {{ date('Y') }}</p>
         </div>
     </footer>
 

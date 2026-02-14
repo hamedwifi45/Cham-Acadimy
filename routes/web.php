@@ -11,6 +11,8 @@ use App\Models\Course;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Purchase as PurchaseController;
+use App\Http\Controllers\videocontroller;
+use App\Http\Controllers\WebhookController;
 use App\Models\Auther;
 
 Route::get('/', function () {
@@ -19,19 +21,27 @@ Route::get('/', function () {
     return view('Gallary', compact('courses' , 'posts'));
 })->name('Gallary');
 
+
 Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
-Route::get('courses/mycourse', [CourseController::class , 'mycourse'])->name('courses.mycourse');
+
+Route::post('/webhook/stripe', [WebhookController::class, 'handleStripe'])->name('webhook.stripe');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/video/stream/{lessonId}', [videocontroller::class, 'stream'])->name('video.stream');
+    Route::get('courses/mycourse', [CourseController::class , 'mycourse'])->name('courses.mycourse');
+    Route::delete('comments/destroy/post/{comment}', [CommentPostController::class , 'destroy'])->name('comments.post.destroy');
+    Route::get('/checkout/{course}', [PurchaseController::class, 'creditCheckout'])->name('credit.checkout');
+    Route::post('/checkout', [PurchaseController::class, 'purchase'])->name('products.purchase');
+    Route::get('/myproducts', [PurchaseController::class, 'myProducts'])->name('my.products');
+});
+
+
 Route::resource('courses', CourseController::class);
 Route::resource('posts', PostController::class);
 Route::resource('lessons', LessonController::class);
-Route::delete('comments/destroy/post/{comment}', [CommentPostController::class , 'destroy'])->name('comments.post.destroy');
 
 
-Route::get('/checkout/{course}', [PurchaseController::class, 'creditCheckout'])->name('credit.checkout');
-Route::post('/checkout', [PurchaseController::class, 'purchase'])->name('products.purchase');
-Route::get('/myproducts', [PurchaseController::class, 'myProducts'])->name('my.products');
 
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['ar', 'en'])) {

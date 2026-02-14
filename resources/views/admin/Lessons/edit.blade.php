@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'تعديل درس جديد')
+@section('title', __('Edit Lesson'))
 
 @push('styles')
 <style>

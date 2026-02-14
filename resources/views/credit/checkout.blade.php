@@ -27,10 +27,10 @@
 
 <div class="container">
         <div class="row justify-content-center"> 
-            <div id="success" style="display: none" class="col-md-8 text-center h3 p-4 bg-success text-light rounded">تمت عملية الشراء بنجاح</div>
+            <div id="success" style="display: none" class="col-md-8 text-center h3 p-4 bg-success text-light rounded">{{ __('Purchase completed successfully') }}</div>
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">الدفع باستخدام البطاقة الائتمانية</div>
+                    <div class="card-header">{{__("Credit Card Payment")}}</div>
                     <form method="POST" action="{{ route('products.purchase', $course->id ) }}" class="card-form mt-3 mb-3 mx-4">
                         @csrf
                         <input type="hidden" name="payment_method" class="payment-method">
@@ -41,7 +41,7 @@
                         <div id="card-errors" role="alert"></div>
                         <div class="form-group mt-3">
                             <button type="submit" class="btn bg-cart pay">
-                                دفع {{$total}}
+                                {{ __('Pay') }} {{$total}}
                                 <span class="icon" hidden><i class="fas fa-sync fa-spin"></i></span>
                             </button>
                         </div>
@@ -101,7 +101,7 @@
         ).then(function (result) {
             if (result.error) {
                 var notyf = new Notyf();
-                notyf.error('المعطيات التي قمت بإدخالها تحتوي على أخطاء! راجعها وحاول مرة أخرى.')
+                notyf.error("{{ __('The data you entered contains errors! Please review and try again.') }}");
                 $('button.pay').removeAttr('disabled')
             } else {
                 paymentMethod = result.setupIntent.payment_method

@@ -78,10 +78,10 @@ class EditLesson extends Component
 
         // معالجة الفيديو فقط إذا تم تحميله
         if ($this->video_url) {
-            if ($this->current_video && Storage::disk('public')->exists($this->current_video)) {
-                Storage::disk('public')->delete($this->current_video);
+            if ($this->current_video && Storage::disk('private')->exists($this->current_video)) {
+                Storage::disk('private')->delete($this->current_video);
             }
-            $data['video_url'] = $this->video_url->store('lessons/videos', 'public');
+            $data['video_url'] = $this->video_url->store('lessons/videos', 'private');
         }
 
         $this->lesson->update($data);

@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'إضافة دورة جديدة')
+@section('title', __('Edit Course'))
 
 @push('styles')
 <style>

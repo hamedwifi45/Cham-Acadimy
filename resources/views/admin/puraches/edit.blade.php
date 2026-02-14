@@ -1,4 +1,7 @@
 @extends('admin.layouts.app')
+@section('title')
+{{ __('Edit Purchase') }}
+@endsection
 
 @push('styles')
     <style>

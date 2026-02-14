@@ -48,7 +48,7 @@
 @endpush
 
 @section('title')
-{{ __('Showing')}}
+{{ __('Showing Lessons')}}
 @endsection
 @section('content')
     <main class="flex-1 p-6 md:ml-0">

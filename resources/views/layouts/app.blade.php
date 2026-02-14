@@ -48,9 +48,9 @@
         <div class="container mx-auto px-4 text-center">
             <div class="flex justify-center items-center gap-2 mb-4">
                 <i class="fas fa-graduation-cap text-indigo-400 text-xl"></i>
-                <span class="text-xl font-bold">أكاديمية شام</span>
+                <span class="text-xl font-bold">{{ config('app.name') }}</span>
             </div>
-            <p class="text-gray-400">© 2026 جميع الحقوق محفوظة</p>
+            <p class="text-gray-400">© {{ date('Y') }} {{ __('All rights reserved for') }} </p>
         </div>
     </footer>
     </body>

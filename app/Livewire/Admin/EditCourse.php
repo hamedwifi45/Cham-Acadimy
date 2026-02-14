@@ -40,9 +40,9 @@ class EditCourse extends Component
     }
     
     public $levels = [
-        'مبتدئ' => 'مبتدئ',
-        'متوسط' => 'متوسط',
-        'متقدم' => 'متقدم',
+        'beginner' => 'beginner',
+        'intermediate' => 'intermediate',
+        'advanced' => 'advanced',
     ];
 
     public function rules()
@@ -63,17 +63,17 @@ class EditCourse extends Component
     public function messages()
     {
         return [
-            'thumbnail_url.required' => 'صورة الغلاف مطلوبة',
-            'thumbnail_url.image' => 'يجب أن تكون صورة',
-            'thumbnail_url.max' => 'يجب أن تكون الصورة أقل من 2MB',
-            'thumbnail_url.mimes' => 'صيغة الصورة غير صحيحة (يجب أن تكون JPG, JPEG, PNG)',
-            'video_url.required' => 'مقطع الفيديو الدعائي مطلوب',
-            'video_url.file' => 'يجب أن يكون ملف فيديو',
-            'video_url.max' => 'يجب أن يكون الفيديو أقل من 100MB',
-            'video_url.mimes' => 'صيغة الفيديو غير صحيحة (يجب أن تكون MP4 أو MOV)',
-            'price.required' => 'السعر مطلوب',
-            'price.numeric' => 'السعر يجب أن يكون رقمًا',
-            'author_id.exists' => 'الكاتب غير موجود',
+            'thumbnail_url.required' => __('Cover image is required'),
+            'thumbnail_url.image' => __('Must be an image'),
+            'thumbnail_url.max' => __('Image must be less than 2MB'),
+            'thumbnail_url.mimes' => __('Invalid image format (must be JPG, JPEG, PNG)'),
+            'video_url.required' => __('Promotional video is required'),
+            'video_url.file' => __('Must be a video file'),
+            'video_url.max' => __('Video must be less than 100MB'),
+            'video_url.mimes' => __('Invalid video format (must be MP4 or MOV)'),
+            'price.required' => __('Price is required'),
+            'price.numeric' => __('Price must be a number'),
+            'author_id.exists' => __('Author does not exist'),
         ];
     }
 
@@ -110,7 +110,7 @@ class EditCourse extends Component
                 $extension = $this->video_url->getClientOriginalExtension();
                 
                 if(!in_array(strtolower($extension), $allowedExtensions)) {
-                    session()->flash('error', 'صيغة الفيديو غير مدعومة. يرجى تحميل فيديو بصيغة MP4 أو MOV');
+                    session()->flash('error', __('Unsupported video format. Please upload MP4 or MOV video'));
                     return;
                 }
 
@@ -125,9 +125,9 @@ class EditCourse extends Component
 
             Course::where('id', $this->id)->update($data);
             
-            return redirect()->route('admin.courses.index')->with('success', 'تم تعديل الدورة بنجاح');
+            return redirect()->route('admin.courses.index')->with('success', __('Course updated successfully'));
         } else {
-            abort(403, 'غير مسموح بالدخول');
+            abort(403, __('Access denied'));
         }
     }
 

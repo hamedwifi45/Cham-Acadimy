@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'إضافة درس جديد')
+@section('title', __('Add New Lesson'))
 
 @push('styles')
 <style>
@@ -62,10 +62,11 @@
 @endpush
 
 @section('content')
-<div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">{{ __('Add New Lesson') }}</h1>
-        <p class="text-gray-600">{{ __('Fill in the following information to create a new tutorial') }}</p>
-    </div>
+    
+    <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-800">{{ __('Add New Lesson') }}</h1>
+            <p class="text-gray-600">{{ __('Fill in the following information to create a new tutorial') }}</p>
+        </div>
 
-    <livewire:admin.create-lesson />
+        <livewire:admin.create-lesson />
 @endsection

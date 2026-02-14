@@ -7,10 +7,10 @@
                 class="absolute top-0 left-0 w-full h-full object-contain"
             >
                 <source 
-                    src="{{ Storage::url($lesson->video_url) }}" 
+                    src="{{ route('video.stream', $lesson->id) }}" 
                     type="video/mp4"
                 >
-                Your browser does not support the video tag.
+                
             </video>
         </div>
 

@@ -59,7 +59,6 @@
 
 @section('content')
     <main class="flex-1 p-6 md:ml-0">
-        <!-- Header Section -->
         @if (session()->has('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
                 {{ session('success') }}
@@ -71,9 +70,7 @@
             <p class="text-gray-600">{{ __('View and analyze all purchase operations across the platform') }}</p>
         </div>
 
-        <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Total Revenue -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center justify-between">
                     <div>
@@ -86,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- Total Purchases -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center justify-between">
                     <div>
@@ -99,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Completed Orders -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center justify-between">
                     <div>
@@ -112,7 +107,6 @@
                 </div>
             </div>
 
-            <!-- Failed Orders -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <div class="flex items-center justify-between">
                     <div>
@@ -126,13 +120,11 @@
             </div>
         </div>
 
-        <!-- Filters and Search -->
         <form action="{{ route('admin.puraches.search') }}" method="GET" class="mb-6">
             @csrf
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     
-                    <!-- 1. اختيار نوع البحث -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
                             {{ __('Search By') }}
@@ -150,7 +142,6 @@
                         </select>
                     </div>
 
-                    <!-- 2. حقل البحث -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
                             {{ __('Keyword') }}
@@ -167,7 +158,6 @@
                         </div>
                     </div>
 
-                    <!-- 3. فلتر الحالة -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">
                             {{ __('Status') }}
@@ -188,7 +178,6 @@
                         </select>
                     </div>
 
-                    <!-- 4. أزرار التحكم -->
                     <div class="flex items-end space-x-2 rtl:space-x-reverse">
                         <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center">
                             <i class="fas fa-search mx-2"></i>
@@ -203,7 +192,6 @@
             </div>
         </form>
 
-        <!-- Active Filters Badge (Optional) -->
         @if(request('query') || request('status') !== 'all' || request('search_by') !== 'payment_id')
             <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
                 <div class="flex flex-wrap items-center gap-3">
@@ -243,13 +231,11 @@
             </div>
         @endif
 
-        <!-- Purchases List -->
         <div class="space-y-4">
             @forelse ($purchases as $pur)
                 <div class="purchase-card">
                     <div class="p-4">
                         <div class="flex items-start gap-4">
-                            <!-- Status Icon -->
                             @if ($pur->status == 'completed')
                                 <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-lg flex items-center justify-center text-white">
                                     <i class="fas fa-check"></i>
@@ -274,9 +260,7 @@
                                             <i class="fas fa-calendar-alt ml-1"></i>
                                             {{ $pur->created_at->format('Y-m-d H:i') }}
                                         </p>
-                                    </div>
-                                    
-                                    <!-- Status Badge -->
+                                    </div>                              
                                     @if ($pur->status == 'completed')
                                         <span class="status-completed text-xs font-medium px-3 py-1 rounded-full">
                                             <i class="fas fa-check ml-1"></i>{{ __('Completed') }}
@@ -292,7 +276,6 @@
                                     @endif
                                 </div>
 
-                                <!-- User and Course Info -->
                                 <div class="bg-gray-50 p-3 rounded-lg mb-3">
                                     <p class="text-gray-700 text-sm mb-1">
                                         <i class="fas fa-user ml-1 text-blue-600"></i>
@@ -308,7 +291,6 @@
                                     </p>
                                 </div>
 
-                                <!-- Amount and Actions -->
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-4">
                                         <span class="text-lg font-bold text-indigo-600">
@@ -343,7 +325,6 @@
                     </div>
                 </div>
             @empty
-                <!-- Empty State -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
                     <div class="mx-auto w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                         <i class="fas fa-shopping-cart text-gray-400 text-3xl"></i>
@@ -370,7 +351,6 @@
             @endforelse
         </div>
 
-        <!-- Pagination -->
         @if($purchases->hasPages())
             <div class="flex justify-center mt-8">
                 <nav class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">

@@ -23,7 +23,11 @@ class CreateLesson extends Component
 
     public function setVideoDuration($minutes)
     {
-        $this->duration_minutes = (int) $minutes - 1.5;
+        if ($minutes < 2) {
+            $this->duration_minutes = $minutes; 
+        } else {
+            $this->duration_minutes = (int) $minutes - 1.5;
+        }
     }
 
     public function rules()
@@ -49,9 +53,9 @@ class CreateLesson extends Component
     public function store()
     {
         $this->validate();
-
-        $videoPath = $this->video_url->store('lessons/videos', 'public');
-
+        
+        $videoPath = $this->video_url->store('lessons/videos', 'private');
+        
         $lesson = Lesson::create([
             'course_id' => $this->course_id,
             'video_url' => $videoPath,

@@ -12,13 +12,17 @@ class Purchase extends Model
         'user_id',
         'course_id',
         'amount',
-        'payment_id',
         'status',
+        'payment_intent_id',
+        'paid_at'
     ];
 
+    // تحويل الأعمدة إلى أنواع معينة
     protected $casts = [
         'amount' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
+    
 
     public function user()
     {

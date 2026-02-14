@@ -60,10 +60,10 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">{{ __("Level") }} *</label>
                     <select wire:model="level"
-                        class="w-full px-3 py-2 border {{ $errors->has('level') ? 'border-red-500' : 'border-gray-300' }} rounded-lg">
+                        class="w-full px-8 py-2 border {{ $errors->has('level') ? 'border-red-500' : 'border-gray-300' }} rounded-lg">
                         <option value="">{{ __("Select level") }}</option>
                         @foreach($levels as $value => $label)
-                            <option value="{{ $value }}">{{ $label }}</option>
+                            <option value="{{ $value }}">{{ __($label) }}</option>
                         @endforeach
                     </select>
                     @error('level') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -74,7 +74,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">{{ __("Author") }} *</label>
                 <select wire:model="author_id"
-                    class="w-full px-3 py-2 border {{ $errors->has('author_id') ? 'border-red-500' : 'border-gray-300' }} rounded-lg">
+                    class="w-full px-8 py-2 border {{ $errors->has('author_id') ? 'border-red-500' : 'border-gray-300' }} rounded-lg">
                     <option value="">{{ __("Select author") }}</option>
                     @foreach($authors as $author)
                         <option value="{{ $author->id }}">{{ $author->name }}</option>
