@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
 use App\Models\Lesson;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
@@ -18,10 +18,10 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::where('admin_level', 0)->inRandomOrder()->first() 
+        $user = User::where('admin_level', 0)->inRandomOrder()->first()
                ?? User::factory()->create(['admin_level' => 0]);
-        
-        $lesson = Lesson::inRandomOrder()->first() 
+
+        $lesson = Lesson::inRandomOrder()->first()
                 ?? Lesson::factory()->create();
 
         return [
@@ -41,7 +41,7 @@ class CommentFactory extends Factory
             $parent = \App\Models\Comment::whereNull('parent_id')
                 ->inRandomOrder()
                 ->first();
-            
+
             return [
                 'parent_id' => $parent?->id,
             ];

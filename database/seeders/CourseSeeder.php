@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Course;
 use App\Models\Auther;
+use App\Models\Course;
+use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder
 {
@@ -164,10 +164,10 @@ class CourseSeeder extends Seeder
         foreach ($courses as $courseData) {
             // تجنب التكرار
             $exists = Course::where('name_ar', $courseData['name_ar'])
-                           ->orWhere('name_en', $courseData['name_en'])
-                           ->exists();
-            
-            if (!$exists) {
+                ->orWhere('name_en', $courseData['name_en'])
+                ->exists();
+
+            if (! $exists) {
                 Course::create($courseData);
             }
         }
@@ -175,6 +175,6 @@ class CourseSeeder extends Seeder
         // إنشاء 10 دورات إضافية عشوائية
         Course::factory()->count(10)->create();
 
-        $this->command->info('✅ تم إنشاء ' . Course::count() . ' دورة بنجاح!');
+        $this->command->info('✅ تم إنشاء '.Course::count().' دورة بنجاح!');
     }
 }

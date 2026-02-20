@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Comment;
-use App\Models\User;
-use App\Models\Lesson;
 use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,8 +14,6 @@ class CommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -26,9 +24,10 @@ class CommentSeeder extends Seeder
 
         $requiredTables = ['users', 'courses', 'lessons'];
         foreach ($requiredTables as $table) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 $this->command->error("❌ الجدول '{$table}' غير موجود!");
-                $this->command->comment("💡 يرجى تشغيل: php artisan migrate");
+                $this->command->comment('💡 يرجى تشغيل: php artisan migrate');
+
                 return;
             }
         }
@@ -65,12 +64,14 @@ class CommentSeeder extends Seeder
         if ($users->isEmpty()) {
             $this->command->error('❌ لا توجد مستخدمين عاديين (غير أدمين) لإنشاء تعليقات لهم!');
             $this->command->comment('💡 تأكد من وجود مستخدمين بـ admin_level = 0');
+
             return;
         }
 
         if ($lessons->isEmpty()) {
             $this->command->error('❌ لا توجد دروس لإضافة تعليقات عليها!');
             $this->command->comment('💡 تأكد من تشغيل LessonSeeder أولاً');
+
             return;
         }
 
@@ -149,7 +150,7 @@ class CommentSeeder extends Seeder
         }
 
         // إدخال الردود
-        if (!empty($replies)) {
+        if (! empty($replies)) {
             DB::table('comments')->insert($replies);
             $this->command->info("✅ تم إنشاء {$totalReplies} رد على التعليقات.");
         } else {
@@ -164,12 +165,12 @@ class CommentSeeder extends Seeder
         $repliesCount = Comment::whereNotNull('parent_id')->count();
 
         $this->command->info("\n🎉 تم الانتهاء بنجاح!");
-        $this->command->info("========================================");
-        $this->command->info("📊 إحصائيات التعليقات:");
+        $this->command->info('========================================');
+        $this->command->info('📊 إحصائيات التعليقات:');
         $this->command->info("   - المجموع الكلي: {$total}");
         $this->command->info("   - تعليقات رئيسية: {$main}");
         $this->command->info("   - ردود: {$repliesCount}");
-        $this->command->info("========================================");
+        $this->command->info('========================================');
 
         // ========================================
         // 8. تفصيل حسب الدورات (بدون خطأ GROUP BY)
@@ -194,33 +195,32 @@ class CommentSeeder extends Seeder
             $this->command->warn('   ⚠️ لا توجد تعليقات على أي دورة بعد.');
         } else {
             foreach ($courseStats as $index => $stat) {
-                $this->command->info("   " . ($index + 1) . ". {$stat->name_ar}: {$stat->total_comments} تعليق");
+                $this->command->info('   '.($index + 1).". {$stat->name_ar}: {$stat->total_comments} تعليق");
             }
         }
         $this->updateCourseDurations();
     }
 
-
     private function updateCourseDurations(): void
-{
-    $courses = \App\Models\Course::all();
-    
-    foreach ($courses as $course) {
-        // حساب مجموع مدة الدروس بالدقائق
-        $totalMinutes = \App\Models\Lesson::where('course_id', $course->id)
-            ->sum('duration_minutes');
-        
-        // تحويل الدقائق إلى ساعات (دقة 2 أرقام عشرية)
-        $totalHours = round($totalMinutes / 60, 2);
-        
-        // تحديث الدورة
-        $course->update([
-            'duration_hours' => $totalHours > 0 ? $totalHours : 0,
-        ]);
+    {
+        $courses = \App\Models\Course::all();
+
+        foreach ($courses as $course) {
+            // حساب مجموع مدة الدروس بالدقائق
+            $totalMinutes = \App\Models\Lesson::where('course_id', $course->id)
+                ->sum('duration_minutes');
+
+            // تحويل الدقائق إلى ساعات (دقة 2 أرقام عشرية)
+            $totalHours = round($totalMinutes / 60, 2);
+
+            // تحديث الدورة
+            $course->update([
+                'duration_hours' => $totalHours > 0 ? $totalHours : 0,
+            ]);
+        }
+
+        $this->command->info('✅ تم تحديث مدة جميع الدورات بناءً على الدروس.');
     }
-    
-    $this->command->info('✅ تم تحديث مدة جميع الدورات بناءً على الدروس.');
-}
 
     /**
      * توليد تعليق رئيسي واقعي بالعربية

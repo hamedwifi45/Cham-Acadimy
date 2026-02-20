@@ -4,20 +4,26 @@ namespace App\Livewire\Admin;
 
 use App\Models\Course;
 use App\Models\Lesson;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class EditLesson extends Component
 {
     use WithFileUploads;
 
     public $lesson;
+
     public $course_id;
+
     public $title;
+
     public $content;
+
     public $order;
+
     public $duration_minutes;
+
     public $video_url;
 
     public $current_video; // ← مهم جدًا
@@ -62,7 +68,7 @@ class EditLesson extends Component
 
     public function store()
     {
-        if (!auth()->check() || !auth()->user()->is_admin()) {
+        if (! auth()->check() || ! auth()->user()->is_admin()) {
             abort(403);
         }
 
@@ -98,6 +104,7 @@ class EditLesson extends Component
     public function render()
     {
         $courses = Course::all();
+
         return view('livewire.admin.edit-lesson', compact('courses'));
     }
 }

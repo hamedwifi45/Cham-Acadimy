@@ -8,12 +8,16 @@ use Livewire\WithFileUploads;
 
 class AutherCreate extends Component
 {
-    use WithFileUploads; 
+    use WithFileUploads;
 
     public $name = '';
+
     public $bio = '';
+
     public $profile_photo_url;
+
     public $area_work = '';
+
     public $email = '';
 
     protected $rules = [
@@ -43,7 +47,7 @@ class AutherCreate extends Component
         Auther::create($data);
 
         $this->reset();
-        $this->dispatch('authorCreated'); 
+        $this->dispatch('authorCreated');
 
         session()->flash('success', 'تم إضافة الكاتب بنجاح.');
     }

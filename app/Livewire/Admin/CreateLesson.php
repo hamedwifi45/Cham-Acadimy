@@ -10,21 +10,25 @@ use Livewire\WithFileUploads;
 class CreateLesson extends Component
 {
     use WithFileUploads;
+
     public $course_id;
+
     public $title;
+
     public $content;
+
     public $video_url;
+
     public $duration_minutes = 0;
+
     public $order;
-
-
 
     protected $listeners = ['videoDurationDetected' => 'setVideoDuration'];
 
     public function setVideoDuration($minutes)
     {
         if ($minutes < 2) {
-            $this->duration_minutes = $minutes; 
+            $this->duration_minutes = $minutes;
         } else {
             $this->duration_minutes = (int) $minutes - 1.5;
         }
@@ -53,9 +57,9 @@ class CreateLesson extends Component
     public function store()
     {
         $this->validate();
-        
+
         $videoPath = $this->video_url->store('lessons/videos', 'private');
-        
+
         $lesson = Lesson::create([
             'course_id' => $this->course_id,
             'video_url' => $videoPath,
@@ -68,14 +72,16 @@ class CreateLesson extends Component
         $course = Course::findOrFail($this->course_id);
         $totalMinutes = $course->lessons()->sum('duration_minutes');
         $course->update([
-            'duration_hours' => round($totalMinutes / 60, 1) 
+            'duration_hours' => round($totalMinutes / 60, 1),
         ]);
 
-        return redirect()->route('admin.lessons.create')->with('success' , __("Add New Lesson success"));
+        return redirect()->route('admin.lessons.create')->with('success', __('Add New Lesson success'));
     }
+
     public function render()
     {
         $courses = Course::all();
-        return view('livewire.admin.create-lesson' , compact('courses'));
+
+        return view('livewire.admin.create-lesson', compact('courses'));
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Lesson;
 use App\Models\Course;
+use App\Models\Lesson;
+use Illuminate\Database\Seeder;
 
 class LessonSeeder extends Seeder
 {
@@ -43,6 +43,7 @@ class LessonSeeder extends Seeder
 
         if ($courses->count() === 0) {
             $this->command->error('❌ لا يمكن إنشاء دروس بدون دورات!');
+
             return;
         }
 
@@ -431,10 +432,10 @@ class LessonSeeder extends Seeder
         foreach ($allLessons as $lessonData) {
             // تجنب التكرار
             $exists = Lesson::where('title', $lessonData['title'])
-                           ->where('course_id', $lessonData['course_id'])
-                           ->exists();
-            
-            if (!$exists) {
+                ->where('course_id', $lessonData['course_id'])
+                ->exists();
+
+            if (! $exists) {
                 Lesson::create($lessonData);
             }
         }
@@ -450,11 +451,11 @@ class LessonSeeder extends Seeder
         }
 
         $this->command->info("✅ تم إنشاء {$total} درس بنجاح!");
-        $this->command->info("📊 توزيع الدروس على الدورات:");
+        $this->command->info('📊 توزيع الدروس على الدورات:');
         foreach ($byCourse as $courseName => $count) {
             $this->command->info("   - {$courseName}: {$count} درس");
         }
-        $this->command->info("🎬 جميع الدروس تستخدم فيديوهات عشوائية من: Tests/course-videos/");
+        $this->command->info('🎬 جميع الدروس تستخدم فيديوهات عشوائية من: Tests/course-videos/');
     }
 
     /**
@@ -463,6 +464,7 @@ class LessonSeeder extends Seeder
     private function getRandomVideo(): string
     {
         $randomVideo = $this->availableVideos[array_rand($this->availableVideos)];
+
         return "Tests/course-videos/{$randomVideo}"; // ✅ المسار الموحد
     }
 
@@ -472,18 +474,18 @@ class LessonSeeder extends Seeder
     private function createRandomLessons(int $count): void
     {
         $courses = Course::all();
-        
+
         for ($i = 0; $i < $count; $i++) {
             Lesson::create([
-                'title' => 'درس تجريبي ' . ($i + 1),
-                'content' => 'محتوى درس تجريبي رقم ' . ($i + 1),
+                'title' => 'درس تجريبي '.($i + 1),
+                'content' => 'محتوى درس تجريبي رقم '.($i + 1),
                 'course_id' => $courses->random()->id,
                 'video_url' => $this->getRandomVideo(), // ✅ فيديو عشوائي
                 'order' => rand(1, 20),
                 'duration_minutes' => rand(5, 45),
             ]);
         }
-        
+
         $this->command->info("✅ تم إنشاء {$count} درس تجريبي إضافي.");
     }
 }

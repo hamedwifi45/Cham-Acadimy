@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     use HasFactory;
-   protected $fillable = [
+
+    protected $fillable = [
         'user_id',
         'course_id',
         'amount',
         'status',
         'payment_intent_id',
-        'paid_at'
+        'paid_at',
     ];
 
     // تحويل الأعمدة إلى أنواع معينة
@@ -22,7 +23,6 @@ class Purchase extends Model
         'amount' => 'decimal:2',
         'paid_at' => 'datetime',
     ];
-    
 
     public function user()
     {
@@ -33,6 +33,7 @@ class Purchase extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
     // هذه الدوال اضيفت في مرحلة متقدمة سيتم استخدامها لاحقا بعد تخرج
     /**
      * هل المشتري مكتمل؟
@@ -57,5 +58,4 @@ class Purchase extends Model
     {
         return $this->status === 'failed';
     }
-
 }

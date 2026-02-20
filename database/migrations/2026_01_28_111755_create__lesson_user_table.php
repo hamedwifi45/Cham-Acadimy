@@ -18,8 +18,7 @@ return new class extends Migration
             $table->boolean('completed')->default(false);
             $table->timestamps();
 
-
-           $table->unique(['lesson_id', 'user_id']);
+            $table->unique(['lesson_id', 'user_id']);
 
         });
     }

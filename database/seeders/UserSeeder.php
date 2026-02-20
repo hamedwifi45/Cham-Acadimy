@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $adminExists = User::where('email', 'Chamadmin@Cham.com')->exists();
-        
-        if (!$adminExists) {
+
+        if (! $adminExists) {
             User::create([
                 'name' => 'شام',
                 'email' => 'Chamadmin@Cham.com',
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $userData) {
-            if (!User::where('email', $userData['email'])->exists()) {
+            if (! User::where('email', $userData['email'])->exists()) {
                 User::create([
                     'name' => $userData['name'],
                     'email' => $userData['email'],

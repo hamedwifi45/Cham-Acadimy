@@ -10,13 +10,18 @@ use Livewire\Component;
 class LessonsComments extends Component
 {
     public Lesson $lesson;
+
     public $body = '';
+
     public $parentId = null;
+
     public $comments;
 
     // متغيرات التعديل
     public $editingCommentId = null;
+
     public $editingReplyId = null;
+
     public $editBody = '';
 
     public function mount(Lesson $lesson)
@@ -36,7 +41,7 @@ class LessonsComments extends Component
 
     public function addComment()
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
         $this->validate([
@@ -45,7 +50,7 @@ class LessonsComments extends Component
         $this->lesson->comments()->create([
             'user_id' => Auth::id(),
             'body' => $this->body,
-            'lesson_id' => $this->lesson->id
+            'lesson_id' => $this->lesson->id,
         ]);
         $this->body = '';
         $this->loadComments();
@@ -59,7 +64,7 @@ class LessonsComments extends Component
 
     public function addReply()
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
         $this->validate([
@@ -69,7 +74,7 @@ class LessonsComments extends Component
             'user_id' => Auth::id(),
             'body' => $this->body,
             'parent_id' => $this->parentId,
-            'lesson_id' => $this->lesson->id
+            'lesson_id' => $this->lesson->id,
         ]);
         $this->body = '';
         $this->loadComments();

@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;           
-use App\Models\Purchase;         
-use Illuminate\Http\Request;     
+use App\Models\Purchase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;    // للتعامل مع قاعدة البيانات
 use Illuminate\Support\Facades\Log;   // لتسجيل السجلات (Logging)
-
 // استيراد الـ classes من Stripe
-use Stripe\Webhook;              // للتعامل مع أحداث الـ Webhook من Stripe
-use Stripe\Stripe;               // الفئة الرئيسية لـ Stripe API
+use Stripe\Stripe;              // للتعامل مع أحداث الـ Webhook من Stripe
+use Stripe\Webhook;               // الفئة الرئيسية لـ Stripe API
 
 class WebhookController extends Controller
 {
     /**
      * الدالة الرئيسية التي تستقبل أحداث Stripe
-     * 
-     * @param Request $request - طلب الـ HTTP الوارد من Stripe
+     *
+     * @param  Request  $request  - طلب الـ HTTP الوارد من Stripe
      * @return \Illuminate\Http\Response
      */
     public function handleStripe(Request $request)
@@ -25,11 +23,11 @@ class WebhookController extends Controller
         // قراءة البيانات الخام (raw payload) المرسلة من Stripe
         // @ قبل file_get_contents تمنع عرض الأخطاء في حالة فشل القراءة
         $payload = @file_get_contents('php://input');
-        
+
         // الحصول على رأس التوقيع (Signature) من الطلب
         // هذا التوقيع يستخدم للتحقق من أن الطلب أصلي من Stripe وليس مزيف
         $sig_header = $request->header('Stripe-Signature');
-        
+
         // الحصول على الـ secret key الخاص بـ Webhook من ملف البيئة (.env)
         // هذا المفتاح ضروري للتحقق من صحة التوقيع
         $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
@@ -46,18 +44,20 @@ class WebhookController extends Controller
                 $sig_header,     // رأس التوقيع
                 $endpoint_secret // مفتاح التحقق
             );
-        } 
+        }
         // في حالة وجود بيانات غير صالحة (payload غير صحيح)
         catch (\UnexpectedValueException $e) {
             // تسجيل خطأ في ملف السجلات
             Log::error('Webhook Error: Invalid payload', ['error' => $e->getMessage()]);
+
             // إرجاع استجابة خطأ 400 (طلب غير صحيح)
             return response('', 400);
-        } 
+        }
         // في حالة فشل التحقق من التوقيع (توقيع غير صالح)
         catch (\Stripe\Exception\SignatureVerificationException $e) {
             // تسجيل خطأ في ملف السجلات
             Log::error('Webhook Error: Invalid signature', ['error' => $e->getMessage()]);
+
             // إرجاع استجابة خطأ 400
             return response('', 400);
         }
@@ -71,23 +71,23 @@ class WebhookController extends Controller
                 // $event->data->object يحتوي على بيانات الـ PaymentIntent
                 $this->handlePaymentSucceeded($event->data->object);
                 break;
-            
-            // عندما يفشل الدفع
+
+                // عندما يفشل الدفع
             case 'payment_intent.payment_failed':
                 // استدعاء دالة معالجة الدفع الفاشل
                 $this->handlePaymentFailed($event->data->object);
                 break;
-            
-            // عندما يتم إلغاء الدفع
+
+                // عندما يتم إلغاء الدفع
             case 'payment_intent.canceled':
                 // استدعاء دالة معالجة الدفع الملغى
                 $this->handlePaymentCanceled($event->data->object);
                 break;
-            
-            // لأي نوع حدث آخر غير معالج
+
+                // لأي نوع حدث آخر غير معالج
             default:
                 // تسجيل معلومة في السجلات بأن هذا النوع من الأحداث لم يتم معالجته
-                Log::info('Unhandled event type: ' . $event->type);
+                Log::info('Unhandled event type: '.$event->type);
         }
 
         // إرجاع استجابة نجاح 200 للإشارة إلى أن الـ Webhook تم استقباله ومعالجته
@@ -97,8 +97,8 @@ class WebhookController extends Controller
 
     /**
      * دالة خاصة لمعالجة حدث نجاح الدفع
-     * 
-     * @param object $paymentIntent - كائن الـ PaymentIntent من Stripe
+     *
+     * @param  object  $paymentIntent  - كائن الـ PaymentIntent من Stripe
      */
     private function handlePaymentSucceeded($paymentIntent)
     {
@@ -120,7 +120,7 @@ class WebhookController extends Controller
                 // وتسجيل وقت الدفع الفعلي
                 $purchase->update([
                     'status' => 'completed',    // تغيير الحالة إلى مكتملة
-                    'paid_at' => now()          // تسجيل وقت الدفع الحالي
+                    'paid_at' => now(),          // تسجيل وقت الدفع الحالي
                 ]);
 
                 // تسجيل معلومة في السجلات بنجاح إكمال عملية الشراء
@@ -128,7 +128,7 @@ class WebhookController extends Controller
                 Log::info('Purchase completed successfully', [
                     'purchase_id' => $purchase->id,        // معرف عملية الشراء
                     'user_id' => $purchase->user_id,       // معرف المستخدم
-                    'course_id' => $purchase->course_id    // معرف الدورة
+                    'course_id' => $purchase->course_id,    // معرف الدورة
                 ]);
             });
         }
@@ -136,8 +136,8 @@ class WebhookController extends Controller
 
     /**
      * دالة خاصة لمعالجة حدث فشل الدفع
-     * 
-     * @param object $paymentIntent - كائن الـ PaymentIntent من Stripe
+     *
+     * @param  object  $paymentIntent  - كائن الـ PaymentIntent من Stripe
      */
     private function handlePaymentFailed($paymentIntent)
     {
@@ -151,7 +151,7 @@ class WebhookController extends Controller
         if ($purchase) {
             // تحديث حالة عملية الشراء إلى "فاشلة"
             $purchase->update(['status' => 'failed']);
-            
+
             // تسجيل تحذير في السجلات بوضع علامة على عملية الشراء كفاشلة
             Log::warning('Purchase marked as failed', ['purchase_id' => $purchase->id]);
         }
@@ -159,8 +159,8 @@ class WebhookController extends Controller
 
     /**
      * دالة خاصة لمعالجة حدث إلغاء الدفع
-     * 
-     * @param object $paymentIntent - كائن الـ PaymentIntent من Stripe
+     *
+     * @param  object  $paymentIntent  - كائن الـ PaymentIntent من Stripe
      */
     private function handlePaymentCanceled($paymentIntent)
     {
@@ -174,7 +174,7 @@ class WebhookController extends Controller
         if ($purchase) {
             // تحديث حالة عملية الشراء إلى "فاشلة"
             $purchase->update(['status' => 'failed']);
-            
+
             // تسجيل معلومة في السجلات بوضع علامة على عملية الشراء كملغاة
             Log::info('Purchase marked as canceled', ['purchase_id' => $purchase->id]);
         }

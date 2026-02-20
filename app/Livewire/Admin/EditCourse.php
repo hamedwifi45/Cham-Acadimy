@@ -3,30 +3,42 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Auther;
-use Illuminate\Validation\Rule;
 use App\Models\Course;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class EditCourse extends Component
 {
     use WithFileUploads;
 
     public $thumbnail_url;
+
     public $video_url;
+
     public $id;
+
     public $price;
+
     public $level;
+
     public $author_id;
+
     public $name_ar;
+
     public $name_en;
+
     public $description_ar;
+
     public $description_en;
+
     public $current_thumbnail;
+
     public $current_video;
 
-    public function mount($course){
+    public function mount($course)
+    {
         $this->id = $course->id;
         $this->name_ar = $course->name_ar;
         $this->name_en = $course->name_en;
@@ -38,7 +50,7 @@ class EditCourse extends Component
         $this->description_en = $course->description_en;
         $this->description_ar = $course->description_ar;
     }
-    
+
     public $levels = [
         'beginner' => 'beginner',
         'intermediate' => 'intermediate',
@@ -77,10 +89,11 @@ class EditCourse extends Component
         ];
     }
 
-    public function store(){
-        if(auth()->check() && auth()->user()->is_admin()){
+    public function store()
+    {
+        if (auth()->check() && auth()->user()->is_admin()) {
             $this->validate();
-            
+
             $data = [
                 'name_ar' => $this->name_ar,
                 'name_en' => $this->name_en,
@@ -93,38 +106,39 @@ class EditCourse extends Component
             ];
 
             // معالجة صورة الغلاف
-            if($this->thumbnail_url) {
+            if ($this->thumbnail_url) {
                 // حذف الصورة القديمة إذا كانت موجودة
-                if($this->current_thumbnail && Storage::disk('public')->exists($this->current_thumbnail)) {
+                if ($this->current_thumbnail && Storage::disk('public')->exists($this->current_thumbnail)) {
                     Storage::disk('public')->delete($this->current_thumbnail);
                 }
-                
+
                 $thumbnailPath = $this->thumbnail_url->store('courses/covers', 'public');
                 $data['thumbnail_url'] = $thumbnailPath;
             }
 
             // معالجة الفيديو
-            if($this->video_url) {
+            if ($this->video_url) {
                 // التحقق من صيغة الفيديو
                 $allowedExtensions = ['mp4', 'mov'];
                 $extension = $this->video_url->getClientOriginalExtension();
-                
-                if(!in_array(strtolower($extension), $allowedExtensions)) {
+
+                if (! in_array(strtolower($extension), $allowedExtensions)) {
                     session()->flash('error', __('Unsupported video format. Please upload MP4 or MOV video'));
+
                     return;
                 }
 
                 // حذف الفيديو القديم إذا كان موجوداً
-                if($this->current_video && Storage::disk('public')->exists($this->current_video)) {
+                if ($this->current_video && Storage::disk('public')->exists($this->current_video)) {
                     Storage::disk('public')->delete($this->current_video);
                 }
-                
+
                 $videoPath = $this->video_url->store('courses/videos', 'public');
                 $data['video_url'] = $videoPath;
             }
 
             Course::where('id', $this->id)->update($data);
-            
+
             return redirect()->route('admin.courses.index')->with('success', __('Course updated successfully'));
         } else {
             abort(403, __('Access denied'));
@@ -134,6 +148,7 @@ class EditCourse extends Component
     public function render()
     {
         $authors = Auther::all();
+
         return view('livewire.admin.edit-course', compact('authors'));
     }
 }

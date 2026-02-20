@@ -17,9 +17,9 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-         
+
         $locale = Session::get('locale', 'ar');
-        
+
         if (in_array($locale, ['ar', 'en'])) {
             App::setLocale($locale);
         } else {
@@ -27,6 +27,6 @@ class SetLocale
         }
 
         return $next($request);
-    
+
     }
 }

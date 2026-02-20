@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
 use App\Models\Course;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Purchase>
@@ -19,17 +19,17 @@ class PurchaseFactory extends Factory
     public function definition(): array
     {
         // اختيار مستخدم ودورة عشوائية
-        $user = User::inRandomOrder()->where('admin_level', 0)->first() 
+        $user = User::inRandomOrder()->where('admin_level', 0)->first()
                ?? User::factory()->create(['admin_level' => 0]);
-        
-        $course = Course::inRandomOrder()->first() 
+
+        $course = Course::inRandomOrder()->first()
                 ?? Course::factory()->create();
 
         return [
             'user_id' => $user->id,
             'course_id' => $course->id,
             'amount' => $course->price,
-            'payment_intent_id' => 'stripe_' . $this->faker->uuid(),
+            'payment_intent_id' => 'stripe_'.$this->faker->uuid(),
             'status' => $this->faker->randomElement(['pending', 'completed', 'failed']),
         ];
     }

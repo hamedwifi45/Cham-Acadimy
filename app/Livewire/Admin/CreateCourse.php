@@ -13,13 +13,21 @@ class CreateCourse extends Component
     use WithFileUploads;
 
     public $thumbnail_url;
+
     public $video_url;
+
     public $price;
+
     public $level;
+
     public $author_id;
+
     public $name_ar;
+
     public $name_en;
+
     public $description_ar;
+
     public $description_en;
 
     public $levels = [
@@ -43,7 +51,7 @@ class CreateCourse extends Component
             'description_en' => 'required|string',
         ];
     }
-    
+
     // رسائل التحقق المخصصة
     public function messages()
     {
@@ -62,10 +70,11 @@ class CreateCourse extends Component
         ];
     }
 
-    public function store(){
-        if(auth()->check() && auth()->user()->is_admin() > 0){
+    public function store()
+    {
+        if (auth()->check() && auth()->user()->is_admin() > 0) {
             $this->validate();
-            
+
             $video_url = $this->video_url->store('courses/videos', 'public');
             $thumbnail_url = $this->thumbnail_url->store('courses/covers', 'public');
 
@@ -81,10 +90,9 @@ class CreateCourse extends Component
                 'description_en' => $this->description_en,
                 'duration_hours' => 0,
             ]);
-            
+
             return redirect()->route('admin.courses.index')->with('success', __('Course created successfully'));
-        }
-        else{
+        } else {
             abort(403, __('Access denied'));
         }
     }
@@ -92,6 +100,7 @@ class CreateCourse extends Component
     public function render()
     {
         $authors = Auther::all();
+
         return view('livewire.admin.create-course', compact('authors'));
-    }   
+    }
 }

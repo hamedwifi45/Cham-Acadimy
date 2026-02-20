@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Auther;
-
+use Illuminate\Database\Seeder;
 
 class AutherSeeder extends Seeder
 {
@@ -52,7 +51,7 @@ class AutherSeeder extends Seeder
         ];
 
         foreach ($authers as $autherData) {
-            if (!Auther::where('email', $autherData['email'])->exists()) {
+            if (! Auther::where('email', $autherData['email'])->exists()) {
                 Auther::create($autherData);
             }
         }

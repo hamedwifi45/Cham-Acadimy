@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Course;
 use App\Models\Purchase;
 use App\Models\User;
-use App\Models\Course;
+use Illuminate\Database\Seeder;
 
 class PurchaseSeeder extends Seeder
 {
@@ -31,6 +31,7 @@ class PurchaseSeeder extends Seeder
 
         if ($users->count() === 0 || $courses->count() === 0) {
             $this->command->error('❌ لا يمكن إنشاء مشتريات بدون مستخدمين ودورات!');
+
             return;
         }
 
@@ -41,14 +42,14 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $users[0]->id,
                 'course_id' => $courses[0]->id, // Python
                 'amount' => $courses[0]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             [
                 'user_id' => $users[0]->id,
                 'course_id' => $courses[3]->id, // Digital Marketing
                 'amount' => $courses[3]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             // المستخدم 2 - سارة
@@ -56,14 +57,14 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $users[1]->id,
                 'course_id' => $courses[1]->id, // Laravel
                 'amount' => $courses[1]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             [
                 'user_id' => $users[1]->id,
                 'course_id' => $courses[6]->id, // Excel
                 'amount' => $courses[6]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             // المستخدم 3 - محمد
@@ -71,14 +72,14 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $users[2]->id,
                 'course_id' => $courses[2]->id, // AI
                 'amount' => $courses[2]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             [
                 'user_id' => $users[2]->id,
                 'course_id' => $courses[4]->id, // Design
                 'amount' => $courses[4]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             // المستخدم 4 - فاطمة
@@ -86,14 +87,14 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $users[3]->id,
                 'course_id' => $courses[5]->id, // Security
                 'amount' => $courses[5]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
             [
                 'user_id' => $users[3]->id,
                 'course_id' => $courses[9]->id, // E-commerce
                 'amount' => $courses[9]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'completed',
             ],
         ];
@@ -104,14 +105,14 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $users[0]->id,
                 'course_id' => $courses[7]->id, // Mobile App
                 'amount' => $courses[7]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'pending',
             ],
             [
                 'user_id' => $users[1]->id,
                 'course_id' => $courses[8]->id, // Project Management
                 'amount' => $courses[8]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'pending',
             ],
         ];
@@ -122,7 +123,7 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $users[2]->id,
                 'course_id' => $courses[3]->id, // Digital Marketing
                 'amount' => $courses[3]->price,
-                'payment_intent_id' => 'stripe_' . uniqid(),
+                'payment_intent_id' => 'stripe_'.uniqid(),
                 'status' => 'failed',
             ],
         ];
@@ -131,10 +132,10 @@ class PurchaseSeeder extends Seeder
 
         foreach ($allPurchases as $purchaseData) {
             $exists = Purchase::where('user_id', $purchaseData['user_id'])
-                             ->where('course_id', $purchaseData['course_id'])
-                             ->exists();
-            
-            if (!$exists) {
+                ->where('course_id', $purchaseData['course_id'])
+                ->exists();
+
+            if (! $exists) {
                 Purchase::create($purchaseData);
             }
         }

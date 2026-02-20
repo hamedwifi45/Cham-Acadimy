@@ -9,7 +9,6 @@ use App\Models\Post;
 use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Admin extends Controller
@@ -50,7 +49,8 @@ class Admin extends Controller
     {
         $users = User::latest()->paginate(10);
         $sreach = '';
-        return view('admin.users.show', compact('sreach','users'));
+
+        return view('admin.users.show', compact('sreach', 'users'));
     }
 
     /**
@@ -60,6 +60,7 @@ class Admin extends Controller
     {
         if (auth()->user()->is_admin() > 0) {
             $user->delete();
+
             return redirect()->back()->with('success', 'تم حذف المستخدم بنجاح');
         }
     }
@@ -71,10 +72,11 @@ class Admin extends Controller
     {
         $query = $query->input('query');
         $sreach = $query;
-        $users = User::where('name', 'like', '%' . $query . '%')
-            ->orWhere('email', 'like', '%' . $query . '%')
+        $users = User::where('name', 'like', '%'.$query.'%')
+            ->orWhere('email', 'like', '%'.$query.'%')
             ->paginate(10);
-        return view('admin.users.show', compact('sreach','users'));
+
+        return view('admin.users.show', compact('sreach', 'users'));
     }
 
     /**
@@ -89,6 +91,7 @@ class Admin extends Controller
     public function index_authers()
     {
         $authers = Auther::latest()->paginate(8);
+
         return view('admin.authers.show', compact('authers'));
     }
 
@@ -99,18 +102,22 @@ class Admin extends Controller
     {
         $auther->delete();
     }
+
     public function search_authers(Request $request)
     {
-        $authers = Auther::where('name', 'like', '%' . $request->input('query') . '%')
-            ->orWhere('bio', 'like', '%' . $request->input('query') . '%')
-            ->orWhere('area_work', 'like', '%' . $request->input('query') . '%')
+        $authers = Auther::where('name', 'like', '%'.$request->input('query').'%')
+            ->orWhere('bio', 'like', '%'.$request->input('query').'%')
+            ->orWhere('area_work', 'like', '%'.$request->input('query').'%')
             ->paginate(10);
+
         return view('admin.authers.show', compact('authers'));
     }
+
     public function edit_authers(Auther $auther)
     {
         return view('admin.authers.edit', compact('auther'));
     }
+
     public function update_auther(Request $request, Auther $auther)
     {
         $request->validate([
@@ -118,7 +125,7 @@ class Admin extends Controller
             'bio' => 'required|string',
             'profile_photo_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'area_work' => 'required|string|max:255',
-            'email' => 'required|email|unique:authers,email,' . $auther->id,
+            'email' => 'required|email|unique:authers,email,'.$auther->id,
         ]);
 
         $data = [
@@ -168,6 +175,7 @@ class Admin extends Controller
     public function index_Course()
     {
         $courses = Course::latest()->paginate(6);
+
         return view('admin.courses.show', compact('courses'));
     }
 
@@ -197,6 +205,7 @@ class Admin extends Controller
             }
 
             $course->delete();
+
             return redirect()->back()->with('success', 'تم حذف الدورة بنجاح');
         }
     }
@@ -207,11 +216,12 @@ class Admin extends Controller
     public function Searh_Courses(Request $query)
     {
         $query = $query->input('query');
-        $courses = Course::where('name_ar', 'like', '%' . $query . '%')
-            ->orWhere('name_en', 'like', '%' . $query . '%')
-            ->orWhere('description_ar', 'like', '%' . $query . '%')
-            ->orWhere('description_en', 'like', '%' . $query . '%')
+        $courses = Course::where('name_ar', 'like', '%'.$query.'%')
+            ->orWhere('name_en', 'like', '%'.$query.'%')
+            ->orWhere('description_ar', 'like', '%'.$query.'%')
+            ->orWhere('description_en', 'like', '%'.$query.'%')
             ->paginate(6);
+
         return view('admin.courses.show', compact('courses'));
     }
 
@@ -228,7 +238,8 @@ class Admin extends Controller
     {
         $lessons = Lesson::latest()->paginate(6);
         $search = '';
-        return view('admin.lessons.show', compact('search','lessons'));
+
+        return view('admin.lessons.show', compact('search', 'lessons'));
     }
 
     /**
@@ -247,6 +258,7 @@ class Admin extends Controller
         if (auth()->user()->is_admin() > 0) {
             Storage::disk('public')->delete($lesson->video_url);
             $lesson->delete();
+
             return redirect()->back()->with('success', 'تم حذف الدرس بنجاح');
         }
     }
@@ -258,10 +270,11 @@ class Admin extends Controller
     {
         $query = $query->input('query');
         $search = $query;
-        $lessons = Lesson::where('title', 'like', '%' . $query . '%')
-            ->orWhere('content', 'like', '%' . $query . '%')
+        $lessons = Lesson::where('title', 'like', '%'.$query.'%')
+            ->orWhere('content', 'like', '%'.$query.'%')
             ->paginate(6);
-        return view('admin.lessons.show', compact('search','lessons'));
+
+        return view('admin.lessons.show', compact('search', 'lessons'));
     }
 
     /**
@@ -301,6 +314,7 @@ class Admin extends Controller
     {
         $user = User::findOrFail($puraches->user_id);
         $course = Course::findOrFail($puraches->course_id);
+
         return view('admin.puraches.edit', compact('puraches', 'user', 'course'));
     }
 
@@ -310,8 +324,10 @@ class Admin extends Controller
     public function update_pruches(Request $request, Purchase $puraches)
     {
         $puraches->update(['status' => $request->status]);
+
         return redirect()->route('admin.puraches.index')->with('success', 'تمت العملية بنجاح');
     }
+
     public function search_pruches(Request $request)
     {
         $query = $request->input('query', '');
@@ -326,29 +342,30 @@ class Admin extends Controller
         if ($status !== 'all') {
             $purchases->where('status', $status);
         }
-        // 
+        //
         // ملاحظة لي بعد تخرج اكمل مثل الكود بأسفل على كل صفحات
-        // 
-        if (!empty($query)) {
+        //
+        if (! empty($query)) {
             switch ($searchBy) {
                 case 'payment_intent_id':
-                    $purchases->where('payment_intent_id', 'like', '%' . $query . '%');
+                    $purchases->where('payment_intent_id', 'like', '%'.$query.'%');
                     break;
                 case 'user':
                     $purchases->whereHas('user', function ($q) use ($query) {
-                        $q->where('name', 'like', '%' . $query . '%')
-                            ->orWhere('email', 'like', '%' . $query . '%');
+                        $q->where('name', 'like', '%'.$query.'%')
+                            ->orWhere('email', 'like', '%'.$query.'%');
                     });
                     break;
                 case 'course':
                     $purchases->whereHas('course', function ($q) use ($query) {
-                        $q->where('name_ar', 'like', '%' . $query . '%')
-                            ->orWhere('name_en', 'like', '%' . $query . '%');
+                        $q->where('name_ar', 'like', '%'.$query.'%')
+                            ->orWhere('name_en', 'like', '%'.$query.'%');
                     });
                     break;
             }
         }
         $purchases = $purchases->latest()->paginate(15);
+
         return view('admin.puraches.show', compact(
             'purchases',
             'query',

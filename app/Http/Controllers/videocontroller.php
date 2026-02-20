@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use App\Models\Purchase;
-use Illuminate\Http\Request;
 
 class videocontroller extends Controller
 {
@@ -12,21 +11,22 @@ class videocontroller extends Controller
     {
         $lesson = Lesson::findOrFail($LessonId);
         $course = $lesson->course;
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             abort(401, __('You must be logged in to access this lesson.'));
         }
         if (auth()->user()->is_admin()) {
-            $videoPath = storage_path('app/private/' . $lesson->video_url);
-            if (!file_exists($videoPath)) {
+            $videoPath = storage_path('app/private/'.$lesson->video_url);
+            if (! file_exists($videoPath)) {
                 abort(404, __('The video does not exist.'));
             }
             $headers = [
                 'Content-Type' => 'video/mp4',
-                'Content-Disposition' => 'inline; filename="' . basename($videoPath) . '"',
+                'Content-Disposition' => 'inline; filename="'.basename($videoPath).'"',
                 'X-Content-Type-Options' => 'nosniff',
                 'X-Frame-Options' => 'DENY',
                 'Cache-Control' => 'no-cache, no-store, must-revalidate',
             ];
+
             return response()->file($videoPath, $headers);
         }
 
@@ -35,22 +35,22 @@ class videocontroller extends Controller
             ->where('status', 'completed')
             ->first();
 
-        if (!$purchase) {
+        if (! $purchase) {
             abort(403, __('You do not have permission to access this lesson.'));
         }
-        $videoPath = storage_path('app/private/' . $lesson->video_url);
-        
-        if (!file_exists($videoPath)) {
+        $videoPath = storage_path('app/private/'.$lesson->video_url);
+
+        if (! file_exists($videoPath)) {
             abort(404, __('The video does not exist.'));
         }
         $headers = [
             'Content-Type' => 'video/mp4',
-            'Content-Disposition' => 'inline; filename="' . basename($videoPath) . '"',
+            'Content-Disposition' => 'inline; filename="'.basename($videoPath).'"',
             'X-Content-Type-Options' => 'nosniff',
             'X-Frame-Options' => 'DENY',
             'Cache-Control' => 'no-cache, no-store, must-revalidate',
         ];
+
         return response()->file($videoPath, $headers);
     }
-
 }

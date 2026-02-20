@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('purchases', function (Blueprint $table) {
-             // إضافة عمود payment_intent_id
+            // إضافة عمود payment_intent_id
             $table->string('payment_intent_id')->nullable()->after('status');
-            
+
             // إضافة عمود لتسجيل وقت الدفع الفعلي
             $table->timestamp('paid_at')->nullable()->after('payment_intent_id');
-            
+
             // إضافة فهرس (index) لتحسين الأداء عند البحث
             $table->index('payment_intent_id');
         });

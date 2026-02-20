@@ -22,6 +22,7 @@ class Lesson extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
     public function has_course()
     {
         return $this->course()->exists();
@@ -31,14 +32,17 @@ class Lesson extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
     public function users()
     {
         return $this->belongsToMany(User::class)->withTimestamps()->withPivot('completed');
     }
+
     public function is_watched(User $user)
     {
         return $this->users()->where('user_id', $user->id)->wherePivot('completed', true)->exists();
     }
+
     public function markAsWatchedBy(User $user)
     {
         $this->users()->syncWithoutDetaching([$user->id => ['completed' => true]]);

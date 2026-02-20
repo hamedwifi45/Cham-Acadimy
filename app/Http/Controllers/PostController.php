@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Auther;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Livewire\Attributes\Validate;
 
 class PostController extends Controller
 {
@@ -15,13 +14,16 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(10);
+
         return view('posts.all', compact('posts'));
     }
+
     public function index_admin()
     {
-        if(!auth()->check() || !auth()->user()->is_admin()) {
+        if (! auth()->check() || ! auth()->user()->is_admin()) {
             return redirect()->route('login');
         }
+
         return view('admin.posts.show', [
             'posts' => Post::latest()->paginate(10),
         ]);
@@ -32,8 +34,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        if(auth()->check() && auth()->user()->is_admin()) {
+        if (auth()->check() && auth()->user()->is_admin()) {
             $authors = Auther::all();
+
             return view('admin.posts.create', compact('authors'));
         } else {
             return redirect()->route('login');
@@ -45,7 +48,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        if(auth()->check() && auth()->user()->is_admin()){
+        if (auth()->check() && auth()->user()->is_admin()) {
             $request->validate([
                 'title' => 'required|string|max:255',
                 'body' => 'required|string',
@@ -58,10 +61,13 @@ class PostController extends Controller
             return redirect()->route('login');
         }
     }
-    public function search(Request $request){
-        $posts = Post::where('title' , 'like' , '%'.$request->input('query').'%')->orWhere('body' , 'like' , '%'.$request->input('query').'%')
-        ->paginate(10);
-        return view('admin.posts.show' , compact('posts'));
+
+    public function search(Request $request)
+    {
+        $posts = Post::where('title', 'like', '%'.$request->input('query').'%')->orWhere('body', 'like', '%'.$request->input('query').'%')
+            ->paginate(10);
+
+        return view('admin.posts.show', compact('posts'));
     }
 
     /**
@@ -77,10 +83,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if(!auth()->check() || !auth()->user()->is_admin()) {
+        if (! auth()->check() || ! auth()->user()->is_admin()) {
             return redirect()->route('login');
         }
         $authors = Auther::all();
+
         return view('admin.posts.edit', compact('post', 'authors'));
     }
 
@@ -89,7 +96,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if(auth()->check() && auth()->user()->is_admin()){
+        if (auth()->check() && auth()->user()->is_admin()) {
             $request->validate([
                 'title' => 'required|string|max:255',
                 'body' => 'required|string',
@@ -108,8 +115,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if(auth()->check() && auth()->user()->is_admin()){
+        if (auth()->check() && auth()->user()->is_admin()) {
             $post->delete();
+
             return redirect()->route('admin.posts.index');
         } else {
             return redirect()->route('login');

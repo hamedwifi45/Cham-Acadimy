@@ -9,10 +9,13 @@ use Livewire\Component;
 class PostComments extends Component
 {
     public Post $post;
+
     public $comment = '';
+
     public $comments;
-    
+
     public $editingCommentId = null;
+
     public $editingCommentText = '';
 
     public function mount(Post $post)
@@ -28,12 +31,12 @@ class PostComments extends Component
 
     public function addComment()
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return redirect()->route('login');
         }
 
         $this->validate([
-            'comment' => 'required|string|min:4|max:500'
+            'comment' => 'required|string|min:4|max:500',
         ]);
 
         CommentPost::create([
@@ -44,13 +47,13 @@ class PostComments extends Component
 
         $this->loadComments();
         $this->comment = '';
-        $this->dispatch('commentAdded'); 
+        $this->dispatch('commentAdded');
     }
 
     public function edit($commentId)
     {
         $comment = CommentPost::find($commentId);
-        
+
         if ($comment && (auth()->user()->is_admin() || $comment->user_id === auth()->id())) {
             $this->editingCommentId = $commentId;
             $this->editingCommentText = $comment->comment;
@@ -60,14 +63,14 @@ class PostComments extends Component
     public function update()
     {
         $comment = CommentPost::find($this->editingCommentId);
-        
+
         if ($comment && (auth()->user()->is_admin() || $comment->user_id === auth()->id())) {
             $this->validate([
-                'editingCommentText' => 'required|string|min:4|max:500'
+                'editingCommentText' => 'required|string|min:4|max:500',
             ]);
 
             $comment->update(['comment' => $this->editingCommentText]);
-            
+
             $this->cancelEdit();
             $this->loadComments();
             session()->flash('success', __('Comment updated successfully.'));
@@ -83,7 +86,7 @@ class PostComments extends Component
     public function delete($commentId)
     {
         $comment = CommentPost::find($commentId);
-        
+
         if ($comment && (auth()->user()->is_admin || $comment->user_id === auth()->id())) {
             $comment->delete();
             $this->loadComments();

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\CommentPost;
-use App\Models\User;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class CommentPostSeeder extends Seeder
 {
@@ -30,6 +30,7 @@ class CommentPostSeeder extends Seeder
 
         if ($users->count() === 0 || $posts->count() === 0) {
             $this->command->error('❌ لا يمكن إنشاء تعليقات بدون مستخدمين ومقالات!');
+
             return;
         }
 
@@ -177,7 +178,7 @@ class CommentPostSeeder extends Seeder
             CommentPost::create($commentData);
         }
 
-        $this->command->info('✅ تم إنشاء ' . count($comments) . ' تعليق ثابت.');
+        $this->command->info('✅ تم إنشاء '.count($comments).' تعليق ثابت.');
 
         // ==================== تعليقات عشوائية ====================
         $randomCommentsCount = 30;
@@ -198,7 +199,7 @@ class CommentPostSeeder extends Seeder
             CommentPost::create($commentData);
         }
 
-        $this->command->info('✅ تم إنشاء ' . $randomCommentsCount . ' تعليق عشوائي.');
+        $this->command->info('✅ تم إنشاء '.$randomCommentsCount.' تعليق عشوائي.');
 
         // ==================== إحصائيات ====================
         $total = CommentPost::count();
@@ -210,11 +211,11 @@ class CommentPostSeeder extends Seeder
             }
         }
 
-        $this->command->info("📊 إحصائيات تعليقات المدونة:");
+        $this->command->info('📊 إحصائيات تعليقات المدونة:');
         $this->command->info("   - المجموع: {$total}");
-        $this->command->info("   - توزيع التعليقات على المقالات:");
+        $this->command->info('   - توزيع التعليقات على المقالات:');
         foreach ($byPost as $postTitle => $count) {
-            $this->command->info("     • " . substr($postTitle, 0, 40) . "...: {$count}");
+            $this->command->info('     • '.substr($postTitle, 0, 40)."...: {$count}");
         }
     }
 

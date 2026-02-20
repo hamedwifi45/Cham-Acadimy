@@ -35,6 +35,7 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id')->with('user')->latest();
     }
+
     public function isParent()
     {
         return $this->parent_id === null;

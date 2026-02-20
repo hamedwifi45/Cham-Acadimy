@@ -13,16 +13,16 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::paginate(9);
+
         return view('Courses.all', compact('courses'));
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        if(auth()->user()->is_admin() > 0){
+        if (auth()->user()->is_admin() > 0) {
             return view('admin.Courses.create');
         }
     }
@@ -66,10 +66,12 @@ class CourseController extends Controller
     {
         //
     }
+
     public function mycourse()
     {
         if (auth()->user()->has_any_course()) {
             $courses = auth()->user()->Courses()->where('user_id', auth()->id())->where('status', 'completed')->paginate(6);
+
             return view('Courses.all', compact('courses'));
         } else {
             abort(404, 'اشتري دورة واذا كنت تظن ان هناك خطأ اتصل بفريق الدهم');

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CommentPost>
@@ -19,10 +19,10 @@ class CommentPostFactory extends Factory
     public function definition(): array
     {
         // اختيار مستخدم ومقالة عشوائية
-        $user = User::inRandomOrder()->where('admin_level', 0)->first() 
+        $user = User::inRandomOrder()->where('admin_level', 0)->first()
                ?? User::factory()->create(['admin_level' => 0]);
-        
-        $post = Post::inRandomOrder()->first() 
+
+        $post = Post::inRandomOrder()->first()
               ?? Post::factory()->create();
 
         return [
@@ -79,4 +79,4 @@ class CommentPostFactory extends Factory
             ]),
         ]);
     }
-} 
+}

@@ -26,37 +26,41 @@ class Course extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
     public function author()
     {
         return $this->belongsTo(Auther::class, 'Author_id');
     }
+
     public function purchases()
     {
         return $this->belongsToMany(User::class, 'purchases')
-                ->withPivot('amount', 'payment_intent_id', 'status')
-                    ->withTimestamps();
+            ->withPivot('amount', 'payment_intent_id', 'status')
+            ->withTimestamps();
     }
+
     public function getTitleAttribute()
     {
-        return $this->{'name_' . app()->getLocale()};
+        return $this->{'name_'.app()->getLocale()};
     }
 
     public function completionPercentage(User $user)
     {
         $totalLessons = $this->lessons()->count();
-        if ($totalLessons === 0) return 0;
-        
+        if ($totalLessons === 0) {
+            return 0;
+        }
+
         $completed = $user->completedLessonsInCourse($this->id);
+
         return round(($completed / $totalLessons) * 100);
     }
 
-    
     /**
      * احصل على الوصف حسب اللغة الحالية
      */
     public function getDescriptionAttribute()
     {
-        return $this->{'description_' . app()->getLocale()};
+        return $this->{'description_'.app()->getLocale()};
     }
-
 }
