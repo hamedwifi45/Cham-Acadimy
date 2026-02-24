@@ -74,8 +74,6 @@
                                 </x-slot>
 
                                 <x-slot name="content">
-
-
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         {{ __('Manage Account') }}
                                     </div>
@@ -83,7 +81,7 @@
                                         {{ __('Profile') }}
                                     </x-dropdown-link>
 
-                                    @if(auth()->user()->is_admin() > 1)
+                                    @if(auth()->user()->is_admin())
                                         <x-dropdown-link href="{{ route('admin.dashboard') }}">
                                             {{ __('Admin Dashboard') }}
                                         </x-dropdown-link>
@@ -178,7 +176,7 @@
                     </x-responsive-nav-link>
 
 
-                    @if(auth()->user()->is_admin() > 1)
+                    @if(auth()->user()->is_admin() )
                         <x-responsive-nav-link href="{{ route('admin.dashboard') }}">
                             {{ __('Admin Dashboard') }}
                         </x-responsive-nav-link>
