@@ -53,7 +53,7 @@
             .video-container {
                 position: relative;
                 width: 100%;
-                max-width: 800px;
+                
                 margin: 0 auto;
                 background: #000;
                 border-radius: 12px;
@@ -340,7 +340,7 @@
                         </div>
                         <div class="flex items-center">
                             <i class="fas fa-graduation-cap text-gray-500 mx-2"></i>
-                            <span class="text-gray-600">{{ __('level : ') }} {{ $course->level }}</span>
+                            <span class="text-gray-600">{{ __('level : ') }} {{ __("$course->level") }}</span>
                         </div>
                     </div>
                 </div>

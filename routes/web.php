@@ -12,13 +12,15 @@ use App\Http\Controllers\WebhookController;
 use App\Http\Middleware\Admin;
 use App\Models\Course;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $courses = Course::take(6)->get();
     $posts = Post::take(4)->get();
+    $usercount = User::count();
 
-    return view('Gallary', compact('courses', 'posts'));
+    return view('Gallary', compact('courses', 'usercount' , 'posts'));
 })->name('Gallary');
 
 Route::get('/auth/google/redirect', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google.redirect');
